@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../context/CartContext";
 
 const Meal = ({ meal }) => {
+
+  const {addToCart} = useContext(CartContext)
+  
+  const handleAdd = () => {
+    addToCart(meal)
+  }
+  
   return (
     <div>
       <h1>{meal.name}</h1>
@@ -9,7 +17,7 @@ const Meal = ({ meal }) => {
       </ul>
       <h2> {meal.price} </h2>
 
-      <button>
+      <button onClick={handleAdd}>
         Add to Cart
       </button>
     </div>

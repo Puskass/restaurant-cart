@@ -1,6 +1,7 @@
 import React from "react";
 import { meals } from "../assets/data/meals";
 import MealCard from "../components/Meal";
+
 const Home = () => {
   return (
     <div>

@@ -15,7 +15,7 @@ const cartReducer = (state, action) => {
                 ...state,
                 meals: action.payload
             }
-        case "UPDATE PRICE":
+        case "UPDATE_PRICE":
             return {
                 ...state,
                 total: action.payload
@@ -23,3 +23,5 @@ const cartReducer = (state, action) => {
         default: throw Error("Cannot match cases in reducer")
     }
 }
+
+export default cartReducer 

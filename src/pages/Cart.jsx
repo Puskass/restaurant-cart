@@ -9,7 +9,7 @@ const Cart = () => {
   return (
     <div>
       <h3>Your Cart</h3>
-      <p>Total: ${total}</p>
+      <p>Total: ${total.toFixed(2)}</p>
       <div>
         {meals.map((meal, i) => 
           <CartProduct

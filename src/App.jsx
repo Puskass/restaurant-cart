@@ -8,7 +8,6 @@ import Navbar from "./components/Navbar";
 const App = () => {
   return (
     <CartProvider>
-
       <Router>
         <Navbar />
         <Routes>

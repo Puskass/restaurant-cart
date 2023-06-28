@@ -8,20 +8,38 @@ export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const addToCart = (meal) => {
-    const mealIndex = state.meals.findIndex((m) => m.id === meal.id);
-    if (mealIndex !== -1) {
-      const updatedMeals = [...state.meals];
-      updatedMeals[mealIndex].quantity += 1;
-      dispatch({ type: "UPDATE_MEALS", payload: updatedMeals });
+    const updatedCart = state.meals;
+    const existingItemIndex = updatedCart.findIndex(
+      (item) => item.name === meal.name
+    );
+
+    if (existingItemIndex !== -1) {
+      // Item already exists, update its quantity
+      updatedCart[existingItemIndex].quantity += 1;
     } else {
-      const updatedMeals = [...state.meals, { ...meal, quantity: 1 }];
-      dispatch({ type: "ADD", payload: updatedMeals });
+      // Item doesn't exist, add it to the cart
+      updatedCart.push({ ...meal, quantity: 1 });
     }
+
+    updatePrice(updatedCart);
+
+    dispatch({
+      type: "ADD",
+      payload: updatedCart,
+    });
   };
 
   const removeFromCart = (meal) => {
-    const updatedMeals = state.meals.filter((currentMeal) => currentMeal.id !== meal.id);
-    dispatch({ type: "REMOVE", payload: updatedMeals });
+    const updatedCart = state.meals.filter(
+      (currentMeal) => currentMeal.name !== meal.name
+    );
+
+    updatePrice(updatedCart);
+
+    dispatch({
+      type: "REMOVE",
+      payload: updatedCart,
+    });
   };
 
   const updatePrice = (meals) => {
@@ -29,7 +47,34 @@ export const CartProvider = ({ children }) => {
     meals.forEach((meal) => {
       total += meal.price * meal.quantity;
     });
-    dispatch({ type: "UPDATE_PRICE", payload: total });
+
+    dispatch({
+      type: "UPDATE_PRICE",
+      payload: total,
+    });
+  };
+
+  const updateQuantity = (meal, change) => {
+    const updatedCart = state.meals
+      .map((item) => {
+        if (item.name === meal.name) {
+          item.quantity += change;
+
+          if (item.quantity === 0) {
+            // Remove item from cart when quantity is 0
+            return null;
+          }
+        }
+        return item;
+      })
+      .filter(Boolean);
+
+    updatePrice(updatedCart);
+
+    dispatch({
+      type: "UPDATE_QUANTITY",
+      payload: updatedCart,
+    });
   };
 
   const value = {
@@ -37,6 +82,7 @@ export const CartProvider = ({ children }) => {
     meals: state.meals,
     addToCart,
     removeFromCart,
+    updateQuantity,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

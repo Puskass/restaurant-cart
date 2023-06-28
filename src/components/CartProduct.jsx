@@ -2,10 +2,18 @@ import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 
 const CartProduct = ({ meal }) => {
-  const { removeFromCart } = useContext(CartContext);
+  const { removeFromCart, updateQuantity } = useContext(CartContext);
 
   const handleRemove = () => {
     removeFromCart(meal);
+  };
+
+  const handleDecreaseQuantity = () => {
+    updateQuantity(meal, -1);
+  };
+
+  const handleIncreaseQuantity = () => {
+    updateQuantity(meal, 1);
   };
 
   return (
@@ -13,6 +21,11 @@ const CartProduct = ({ meal }) => {
       <h1>{meal.name}</h1>
       <p>{meal.ingredients}</p>
       <h2>{meal.price.toFixed(2)}</h2>
+      <div>
+        <button onClick={handleDecreaseQuantity}>-</button>
+        <span>{meal.quantity}</span>
+        <button onClick={handleIncreaseQuantity}>+</button>
+      </div>
       <button onClick={handleRemove}>Remove</button>
     </div>
   );

@@ -5,12 +5,14 @@ import { CartContext } from "../context/CartContext";
 const Navbar = () => {
   const { meals } = useContext(CartContext);
 
+  const cartItemCount = meals.reduce((total, meal) => total + meal.quantity, 0);
+
   return (
     <div>
       <Link to="/">Home</Link>
       <Link to="/cart">
         Cart
-        <span>{meals.length}</span>
+        {cartItemCount > 0 && <span> {cartItemCount} </span>}
       </Link>
     </div>
   );

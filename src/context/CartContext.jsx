@@ -1,44 +1,35 @@
+//
 import { createContext, useReducer } from "react";
-import reducer, { initalState } from "./reducer.js";
+import reducer, { initialState } from "./reducer.js";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initalState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const addToCart = (meal) => {
-    const updatedCart = state.meals;
-    updatedCart.push(meal);
-
-    updatePrice(updatedCart);
-
-    dispatch({
-      type: "ADD",
-      payload: updatedCart,
-    });
+    const mealIndex = state.meals.findIndex((m) => m.id === meal.id);
+    if (mealIndex !== -1) {
+      const updatedMeals = [...state.meals];
+      updatedMeals[mealIndex].quantity += 1;
+      dispatch({ type: "UPDATE_MEALS", payload: updatedMeals });
+    } else {
+      const updatedMeals = [...state.meals, { ...meal, quantity: 1 }];
+      dispatch({ type: "ADD", payload: updatedMeals });
+    }
   };
 
   const removeFromCart = (meal) => {
-    const updatedCart = state.meals.filter((currentMeal) => currentMeal.name !== meal.name);
-
-    updatePrice(updatedCart);
-
-    dispatch({
-      type: "REMOVE",
-      payload: updatedCart,
-    });
+    const updatedMeals = state.meals.filter((currentMeal) => currentMeal.id !== meal.id);
+    dispatch({ type: "REMOVE", payload: updatedMeals });
   };
 
   const updatePrice = (meals) => {
     let total = 0;
     meals.forEach((meal) => {
-      total += meal.price;
+      total += meal.price * meal.quantity;
     });
-
-    dispatch({
-      type: "UPDATE_PRICE",
-      payload: total,
-    });
+    dispatch({ type: "UPDATE_PRICE", payload: total });
   };
 
   const value = {

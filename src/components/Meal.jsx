@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 
+// Component for displaying a meal
 const Meal = ({ meal }) => {
+  const { addToCart } = useContext(CartContext);
 
-  const {addToCart} = useContext(CartContext)
-  
   const handleAdd = () => {
-    addToCart(meal)
-  }
-  
+    addToCart(meal);
+  };
+
   return (
     <div>
       <h1>{meal.name}</h1>
@@ -17,9 +17,7 @@ const Meal = ({ meal }) => {
       </ul>
       <h2> {meal.price} </h2>
 
-      <button onClick={handleAdd}>
-        Add to Cart
-      </button>
+      <button onClick={handleAdd}>Add to Cart</button>
     </div>
   );
 };

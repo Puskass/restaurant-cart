@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
+// Component for the navigation bar
 const Navbar = () => {
   const { meals } = useContext(CartContext);
 
+  // Calculate the total quantity of all meals in the cart
   const cartItemCount = meals.reduce((total, meal) => total + meal.quantity, 0);
 
   return (

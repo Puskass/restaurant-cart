@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 
+// Component for displaying a product in the cart
 const CartProduct = ({ meal }) => {
   const { removeFromCart, updateQuantity } = useContext(CartContext);
 

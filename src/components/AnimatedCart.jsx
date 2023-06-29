@@ -5,7 +5,7 @@ import { FaShoppingCart } from "react-icons/fa";
 const AnimatedCartIcon = ({ onAnimationComplete }) => {
   return (
     <motion.div
-      className="cart-animation absolute top-0 right-0 mt-2 mr-2"
+      className="absolute top-0 right-0 mt-2 mr-2"
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       exit={{ scale: 0 }}

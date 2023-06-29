@@ -1,14 +1,22 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { CartContext } from "../context/CartContext";
+import React, { useContext, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import { CartContext } from "../context/CartContext";
+import CartModal from "./CartModal";
+import { Link } from "react-router-dom";
 
-// Component for the navigation bar
 const Navbar = () => {
   const { meals } = useContext(CartContext);
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
 
-  // Calculate the total quantity of all meals in the cart
   const cartItemCount = meals.reduce((total, meal) => total + meal.quantity, 0);
+
+  const openCartModal = () => {
+    setIsCartModalOpen(true);
+  };
+
+  const closeCartModal = () => {
+    setIsCartModalOpen(false);
+  };
 
   return (
     <nav className="bg-gray-800 text-white p-4">
@@ -16,15 +24,16 @@ const Navbar = () => {
         <Link to="/" className="text-xl font-bold">
           Menu
         </Link>
-        <Link to="/cart" className="relative">
-          <FaShoppingCart size={25} />
+        <div className="relative cursor-pointer">
+          <FaShoppingCart size={25} onClick={openCartModal} />
           {cartItemCount > 0 && (
             <span className="bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center absolute -top-1.5 -right-1 text-xs font-bold">
               {cartItemCount}
             </span>
           )}
-        </Link>
+        </div>
       </div>
+      {isCartModalOpen && <CartModal onClose={closeCartModal} />}
     </nav>
   );
 };

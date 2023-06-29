@@ -1,13 +1,9 @@
 import React, { useContext } from "react";
-import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import { CartContext } from "../context/CartContext";
 
 const CartProduct = ({ meal }) => {
-  const { removeFromCart, updateQuantity } = useContext(CartContext);
-
-  const handleRemove = () => {
-    removeFromCart(meal);
-  };
+  const { updateQuantity } = useContext(CartContext);
 
   const handleDecreaseQuantity = () => {
     updateQuantity(meal, -1);
@@ -18,31 +14,35 @@ const CartProduct = ({ meal }) => {
   };
 
   return (
-    <div className="max-w-xl mx-auto border rounded-md p-4 mb-4">
-      <h1 className="text-xl font-bold">{meal.name}</h1>
-      <p className="text-gray-600 mb-2">{meal.ingredients.join(", ")}</p>
-      <h2 className="text-lg font-semibold">${meal.price.toFixed(2)}</h2>
-      <div className="flex items-center mt-4">
-        <button
-          className="px-2 py-1 bg-gray-200 rounded"
-          onClick={handleDecreaseQuantity}
-        >
-          <FaMinus size={12} />
-        </button>
-        <span className="mx-3 font-semibold text-xl">{meal.quantity}</span>
-        <button
-          className="px-2 py-1 bg-gray-200 rounded"
-          onClick={handleIncreaseQuantity}
-        >
-          <FaPlus size={12} />
-        </button>
+    <div className="max-w-4xl mx-auto border rounded-md p-4 mb-4">
+      <div className="flex items-center justify-between">
+        <h4 className="text-lg font-bold mr-32">{meal.name}</h4>
+        <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center">
+            <button
+              className="border border-yellow-900 text-yellow-900 rounded-md px-3 py-1 mr-2"
+              onClick={handleDecreaseQuantity}
+            >
+              <FaMinus size={10} />
+            </button>
+            <button
+              className="border border-yellow-900 text-yellow-900 rounded-md px-3 py-1"
+              onClick={handleIncreaseQuantity}
+            >
+              <FaPlus size={10} />
+            </button>
+          </div>
+        </div>
       </div>
-      <button
-        className="mt-4 px-4 py-2 bg-red-500 text-white rounded"
-        onClick={handleRemove}
-      >
-        <FaTrash />
-      </button>
+
+      <span className="flex items-center justify-stretch mt-3.5 text-xs">
+        <span className="font-bold text-yellow-900 text-base">
+          ${meal.price.toFixed(2)}
+        </span>
+        <span className="ml-6 font-bold border rounded-sm border-gray-300 p-1">
+          x {meal.quantity}
+        </span>
+      </span>
     </div>
   );
 };

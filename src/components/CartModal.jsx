@@ -7,7 +7,7 @@ const CartModal = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white rounded-md p-4 max-w-2xl mx-aut text-black">
+      <div className="bg-white rounded-md p-4 max-w-2xl mx-auto text-black">
         <div>
           {meals.map((meal, i) => (
             <CartProduct key={i} meal={meal} />
@@ -17,7 +17,7 @@ const CartModal = ({ onClose }) => {
           <span>Total Amount:</span>
           <span>${total.toFixed(2)}</span>
         </h1>
-        <span className="flex justify-end">
+        <div className="flex justify-end">
           <button
             className="px-8 py-1 mr-4 font-bold border border-yellow-900 text-yellow-900 rounded-full"
             onClick={onClose}
@@ -27,7 +27,7 @@ const CartModal = ({ onClose }) => {
           <button className="px-8 py-1 font-bold bg-yellow-900 text-white rounded-full">
             Order
           </button>
-        </span>
+        </div>
       </div>
     </div>
   );
